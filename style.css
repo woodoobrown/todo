@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
+}
+
+h1 {
+    padding: 2rem;
+    text-align: center;
+    color: white;
+}
+
+h3 {
+    color: black;
+    font-weight: 500;
+}
+
+p {
+    margin: 0.5rem 0;
+}
+
+.body__date {
+    margin-top: -4rem;
+}
+
+.container {
+    background-color: wheat;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 1.5rem;
+    width: 30rem;
+}
