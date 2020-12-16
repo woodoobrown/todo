@@ -63,6 +63,7 @@ import localDB from './localDB.js';
             return;
         }
         const todo = {
+            id: `todo-${Math.floor(Math.random() * 100000)}`,
             text: value,
             done: false
         }
@@ -82,11 +83,27 @@ import localDB from './localDB.js';
         todoItem.innerHTML = `
                 <input type="checkbox">
                 <span>${todo.text}</span>
-                <button class="todo__remove">
+                <button data-todoid="${todo.id}">
                     <i class="fa fa-trash"></i>
                 </button>
             `;
+            const delBtn = todoItem.querySelector('button');
+            delBtn.addEventListener('click', delTodo);
     };
+
+    // Delete todo item
+    const delTodo = ev => {
+        const button = ev.currentTarget;
+        const btnParent = button.parentElement;
+        const todoID = button.getAttribute('data-todoid');
+        const todoIndex = todos.findIndex(todo => todo.id === todoID);
+
+        btnParent.parentElement.removeChild(btnParent);
+        todos.splice(todoIndex, 1);
+        localDB.setItem('todos', todos);
+    };
+
+
     // Show todo number.
     // const showTodoNumber = (todos) => {
     //     const showNumber = todos.length;
