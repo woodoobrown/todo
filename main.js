@@ -1,3 +1,6 @@
+
+import localDB from './localDB.js';
+
 (function () {
 
     let todos = [];
@@ -7,8 +10,8 @@
     const todoAddBtn = document.querySelector('.todo__btn');
     const todoInput = document.querySelector('.todo__input');
     const todoListPending = document.querySelector('.todo__list--pending');
-    const todoNumber = document.querySelector('.todo__number');
-    const clearAllBtn = document.querySelector('.footer__btn--clear');
+    const pendingItems = document.querySelector('.todo__number');
+    
 
     const dayNames = [
         'Sunday',
@@ -20,26 +23,6 @@
         'Saturday'
     ];
 
-    // Local storage handler object.
-    let localDB = {
-        // localDB.setItem('todos', todos);
-        setItem(key, value) {
-            value = JSON.stringify(value);
-            localStorage.setItem(key, value);
-        },
-        // console.log(localDB.getItem('todos'));
-        getItem(key) {
-            const value = localStorage.getItem(key);
-            if (!value) {
-                return null;
-            }
-            return JSON.parse(value);
-        },
-        // localDB.removeItem('todos');
-        removeItem(key) {
-            localStorage.removeItem(key);
-        }
-    };
     // Initialize application.
     const init = () => {
         showDate();
@@ -55,8 +38,7 @@
         if (todos && Array.isArray(todos)) {
             todos.forEach(todo => showTodo(todo));
         }
-
-        showTodoNumber(todos);
+        showPending();
     };
     // Show date.
     const showDate = () => {
@@ -72,7 +54,6 @@
     // Set event listeners.
     const setListeners = () => {
         todoAddBtn.addEventListener('click', addNewTodo);
-        clearAllBtn.addEventListener('click', clearTodos);
     };
     // Save and add todo to the database.
     const addNewTodo = () => {
@@ -90,8 +71,8 @@
         localDB.setItem('todos', todos);
 
         showTodo(todo);
+        showPending();
         todoInput.value = '';
-        showTodoNumber(todos);
     };
     // Show todo in the list.
     const showTodo = todo => {
@@ -107,13 +88,18 @@
             `;
     };
     // Show todo number.
-    const showTodoNumber = (todos) => {
-        const showNumber = todos.length;
+    // const showTodoNumber = (todos) => {
+    //     const showNumber = todos.length;
 
-        todoNumber.innerHTML = `${showNumber}`;
+    //     todoNumber.innerHTML = `${showNumber}`;
+    // };
+
+    // Count pending todos
+    const showPending = () => {
+        const pendingsNum = todos.filter(todo => !todo.done).length;
+        pendingItems.textContent = pendingsNum;
     };
-    // Clear all todos.
-    const clearTodos = (todos) => todos.length = 0;
+    
 
 
     init();
